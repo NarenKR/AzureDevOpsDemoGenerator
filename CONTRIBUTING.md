@@ -1,12 +1,12 @@
-# Contribute to the Azure DevOps Demo Generator
+# Contribute to the DevOps Generator
 
-Welcome, and thank you for your interest in contributing to the Azure DevOps Demo Generator!
+Welcome, and thank you for your interest in contributing to the DevOps Generator!
 
 We welcome participation in a variety of ways, including providing and commenting on issues, issuing pull requests against the code base for new features and fixes, updating and improving documentation, or by contributing templates.  This document provides a high-level overview of how you can get involved.
 
 ## About this project
 
-The Azure DevOps Demo Generator is a service enabling you to provision Azure DevOps projects based on existing templates. It can be used to generate projects for hands-on-labs and learning, to setup a 'DevOps playground' to experiment and demonstrate, or to achieve other objectives (e.g., Microsoft Learning or the Microsoft Cloud Adoption Framework).  You can also [build custom templates](./docs/Using-The-Generator.md) to create templates for  your own community or company, develop your own project creation tools using the [REST API](./docs/Azure-DevOps-Demo-Generator-REST-API-Reference), or simply as reference example for working with the Azure DevOps APIs.
+The DevOps Generator is a service enabling you to provision Azure DevOps projects based on existing templates. It can be used to generate projects for hands-on-labs and learning, to setup a 'DevOps playground' to experiment and demonstrate, or to achieve other objectives (e.g., Microsoft Learning or the Microsoft Cloud Adoption Framework).  You can also [build custom templates](./docs/Using-The-Generator.md) to create templates for  your own community or company, develop your own project creation tools using the [REST API](./docs/Azure-DevOps-Demo-Generator-REST-API-Reference), or simply as reference example for working with the Azure DevOps APIs.
 
 > Note: The Azure DevOps Demo Generate was not designed for "copying" projects and attempts to do so will most likely fail.
 
@@ -23,7 +23,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 Once you successfully generate and test your template, you can share it with community. This can be done in three ways.
 
-1.  Create a pull request to [Azure DevOps Demo Generator](https://github.com/microsoft/AzureDevOpsDemoGenerator/)
+1.  Create a pull request to [DevOps Generator](https://github.com/microsoft/AzureDevOpsDemoGenerator/)
 1. Place the template zip file in any public repository and share the link in [Email](mailto:AzureDevOpsDemoGenerator@service.microsoft.com)
 1. Share the template directly through [Email](mailto:AzureDevOpsDemoGenerator@service.microsoft.com)
 

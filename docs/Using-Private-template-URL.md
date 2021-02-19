@@ -9,7 +9,7 @@ Using private template URL you can provisoin the project. You have multiple opti
 
 1. Using the template URL from public GitHub repository, refer [Provisioning the project from your custom template](./Using-The-Template-Extractor.md)
 
-1. Use the template URL in the home page of [Azure DevOps Demo Generator](https://azuredevopsdemogenerator.azurewebsites.net/) with querystring parameter **?templateurl**. This supports only the public URL
+1. Use the template URL in the home page of [DevOps Generator](https://azuredevopsdemogenerator.azurewebsites.net/) with querystring parameter **?templateurl**. This supports only the public URL
  
     >```Ex: https://azuredevopsdemogenerator.azurewebsites.net/?templateurl=public_url ```
 

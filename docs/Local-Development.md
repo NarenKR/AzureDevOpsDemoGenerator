@@ -1,4 +1,4 @@
-# Running the Azure DevOps Demo Generator locally
+# Running the DevOps Generator locally
 
 To run this locally, you will need:
 

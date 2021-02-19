@@ -2,11 +2,11 @@
 
 Here are the few frequently asked questions or the knows issues
 
-1. **Q: What are pre-requisites to use Azure DevOps Demo Generator?**<br>
+1. **Q: What are pre-requisites to use DevOps Generator?**<br>
 **A:** You just need to have an organization with all the permissions required to create or manage the project.
 
-1. **Q: Do we require organization prior to the using Azure DevOps Demo Generator?**<br>
-**A:**   Yes, if you really want to create a project. Azure DevOps Demo Generator doesn't create organizations. User must have an organization before using the tool.
+1. **Q: Do we require organization prior to the using DevOps Generator?**<br>
+**A:**   Yes, if you really want to create a project. DevOps Generator doesn't create organizations. User must have an organization before using the tool.
 
 1. **Q: How much time does it take to create a project?** <br>
 **A:** It depends on the template you have choosen. Roughly say 3-5 minutes.

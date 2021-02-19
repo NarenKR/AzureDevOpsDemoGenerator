@@ -1,8 +1,8 @@
-# Limitations of Azure DevOps Demo Generator
+# Limitations of DevOps Generator
 
-Azure DevOps Demo Generator is to create a demo set up with predefined templates, it has some limitations, which are listed below. This can't be treated as migration or copying project tool from one Organization to another.
+DevOps Generator is to create a demo set up with predefined templates, it has some limitations, which are listed below. This can't be treated as migration or copying project tool from one Organization to another.
 
-## Following are the limitations of Azure DevOps Demo Generator and Template Builder
+## Following are the limitations of DevOps Generator and Template Builder
 
 ||Description|
 |------|-----|
