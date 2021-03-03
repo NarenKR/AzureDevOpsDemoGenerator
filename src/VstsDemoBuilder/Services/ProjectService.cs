@@ -405,7 +405,8 @@ namespace VstsDemoBuilder.Services
             // Fork Repo
             if (model.GitHubFork && model.GitHubToken != null)
             {
-                ForkGitHubRepository(model, _gitHubConfig);
+                //ForkGitHubRepository(model, _gitHubConfig);
+                ImportGitRepository(model, _gitHubConfig);
             }
 
             //Add user as project admin
@@ -1030,6 +1031,97 @@ namespace VstsDemoBuilder.Services
                 }
             }
         }
+
+        private void ImportGitRepository(Project model, Configuration _gitHubConfig)
+        {
+            List<string> listRepoFiles = new List<string>();
+            string repoFilePath = GetJsonFilePath(model.IsPrivatePath, model.PrivateTemplatePath, model.SelectedTemplate, "/ImportSourceCode/GitRepository.json");
+            string createRepo = string.Format("{0}/{1}/{2}", HostingEnvironment.MapPath("~"), "Templates", "CreateGitHubRepo.json");
+            string readRepoFile = model.ReadJsonFile(repoFilePath);
+            bool isImported = false;
+            if (!string.IsNullOrEmpty(readRepoFile))
+            {
+                GitHubRepos.Fork forkRepos = new GitHubRepos.Fork();
+                forkRepos = JsonConvert.DeserializeObject<GitHubRepos.Fork>(readRepoFile);
+                if (forkRepos.Repositories != null && forkRepos.Repositories.Count > 0)
+                {
+                    GitHubImportRepo importRepo = new GitHubImportRepo(_gitHubConfig);
+                    foreach (var repo in forkRepos.Repositories)
+                    {
+                        string repoName = Path.GetFileName(repo.vcs_url);
+                        string readCreateRepoFile = model.ReadJsonFile(createRepo).Replace("$NAME$", repoName);
+                        GitHubUserDetail userDetail = new GitHubUserDetail();
+                        GitHubRepoResponse.RepoCreated GitHubRepo = new GitHubRepoResponse.RepoCreated();
+                        var createRepoRes = importRepo.CreateRepo(readCreateRepoFile);
+                        if (createRepoRes.IsSuccessStatusCode)
+                        {
+                            var importRepoRes = importRepo.ImportRepo(repoName, repo);
+                            bool flag = false;
+                            if (importRepoRes.IsSuccessStatusCode)
+                            {
+                                importStat:
+                                var importStatusRes = importRepo.GetImportStatus(repoName);
+                                var res = importStatusRes.Content.ReadAsStringAsync().Result;
+                                ImportRepoResponse.Import importStatus = JsonConvert.DeserializeObject<ImportRepoResponse.Import>(res);
+                                if (!flag)
+                                {
+                                    AddMessage(model.id, "Importing repository, this may take some time. View status <a href='" + importStatus.html_url + "' target='_blank'>here</a>"); flag = true;
+                                }
+                                while (importStatus.status != "complete")
+                                {
+                                    goto importStat;
+                                }
+                                if (importStatus.status == "complete") { isImported = true; }
+
+                                model.GitRepoURL = importStatus.repository_url;
+                                model.GitRepoURL = model.GitRepoURL.Replace("api.", "").Replace("/repos", "/");
+
+                                model.GitRepoName = repoName;
+                                if (!model.Environment.GitHubRepos.ContainsKey(model.GitRepoName))
+                                {
+                                    model.Environment.GitHubRepos.Add(model.GitRepoName, model.GitRepoURL);
+                                }
+                                AddMessage(model.id, string.Format("Imported GitHub repository", model.GitRepoName, _gitHubConfig.userName));
+                            }
+                            else if (importRepoRes.StatusCode == System.Net.HttpStatusCode.Conflict)
+                            {
+                                isImported = true;
+                                AddMessage(model.id, string.Format("Imported GitHub repository", model.GitRepoName = repoName, _gitHubConfig.userName));
+                                if (!model.Environment.GitHubRepos.ContainsKey(model.GitRepoName))
+                                {
+                                    model.Environment.GitHubRepos.Add(model.GitRepoName, model.GitRepoURL = string.Format("https://github.com/{0}/{1}", _gitHubConfig.userName, model.GitRepoName));
+                                }
+                            }
+                            else
+                            {
+                                var res = importRepoRes.Content.ReadAsStringAsync().Result;
+                                AddMessage(model.id.ErrorId(), res.ToString());
+                            }
+                        }
+                    }
+                    if (isImported)
+                    {
+                        HttpResponseMessage response = importRepo.GetRepositoryPublicKey(model.GitRepoName);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string res = response.Content.ReadAsStringAsync().Result;
+                            GitHubPublicKey publicKey = JsonConvert.DeserializeObject<GitHubPublicKey>(res);
+                            string secretFilePath = string.Format("{0}/{1}/{2}/{3}/{4}", HostingEnvironment.MapPath("~"), "Templates", model.SelectedTemplate, "Secrets", model.GitRepoName + ".json");
+                            if (File.Exists(secretFilePath))
+                            {
+                                string secrets = File.ReadAllText(secretFilePath);
+                                if (!string.IsNullOrEmpty(secrets))
+                                {
+                                    GitHubSecrets.GitHubSecret secrets1 = JsonConvert.DeserializeObject<GitHubSecrets.GitHubSecret>(secrets);
+                                    importRepo.EncryptAndAddSecret(publicKey, secrets1, model.GitRepoName);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
         /// <summary>
         /// Create Teams

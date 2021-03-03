@@ -1677,6 +1677,8 @@
     <Content Include="Templates\RetailRecommender-SolutionAccelerator\WorkItems\Feature.json" />
     <Content Include="Templates\RetailRecommender-SolutionAccelerator\WorkItems\Task.json" />
     <Content Include="Templates\RetailRecommender-SolutionAccelerator\WorkItems\User Story.json" />
+    <Content Include="Templates\CreateGitHubRepo.json" />
+    <Content Include="Templates\SmartHotel360\Secrets\SmartHotel360-Website.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
